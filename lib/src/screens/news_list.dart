@@ -4,6 +4,7 @@ import 'package:loading/loading.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 
 import '../blocs/stories_provider.dart';
+import '../widgets/news_list_tile.dart';
 
 class NewsList extends StatelessWidget {
   @override
@@ -34,7 +35,7 @@ class NewsList extends StatelessWidget {
         return ListView.builder(
           itemCount: snapshot.data.length,
           itemBuilder: (context, index) {
-            return Text(snapshot.data[index].toString());
+            return NewsListTile(itemId: snapshot.data[index]);
           },
         );
       },
