@@ -21,7 +21,7 @@ class NewsList extends StatelessWidget {
   Widget buildNewsList(StoriesBloc bloc) {
     return StreamBuilder(
       stream: bloc.topIds,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<List<int>> snapshot) {
         if (!snapshot.hasData) {
           return Center(
             child: Loading(
@@ -33,7 +33,7 @@ class NewsList extends StatelessWidget {
         return ListView.builder(
           itemCount: snapshot.data.length,
           itemBuilder: (context, index) {
-            return Text(snapshot.data[index]);
+            return Text(snapshot.data[index].toString());
           },
         );
       },
