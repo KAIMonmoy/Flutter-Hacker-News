@@ -9,6 +9,8 @@ import '../widgets/news_list_tile.dart';
 class NewsList extends StatelessWidget {
   Widget build(context) {
     final bloc = StoriesProvider.of(context);
+
+    // TODO: Remove this prevent fetching on redering each time
     bloc.fetchTopIds();
 
     return Scaffold(

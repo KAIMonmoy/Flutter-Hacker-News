@@ -10,7 +10,13 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Hacker News',
         theme: ThemeData.dark(),
-        home: NewsList(),
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute(
+            builder: (context) {
+              return NewsList();
+            },
+          );
+        },
       ),
     );
   }
