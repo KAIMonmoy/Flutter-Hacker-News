@@ -32,7 +32,7 @@ class ItemModel {
       : by = json['by'],
         descendants = json['descendants'],
         id = json['id'],
-        kids = json['kids'].cast<dynamic>(),
+        kids = json['kids'],
         score = json['score'],
         time = json['time'],
         title = json['title'],

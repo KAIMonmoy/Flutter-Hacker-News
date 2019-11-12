@@ -5,7 +5,7 @@ import 'package:http/http.dart' show Client;
 const _kBaseURL = 'https://hacker-news.firebaseio.com/v0';
 
 class NewsApiProvider {
-  final client = Client();
+  Client client = Client();
 
   fetchTopIds() async {
     final response = await client.get('$_kBaseURL/topstories.json');
