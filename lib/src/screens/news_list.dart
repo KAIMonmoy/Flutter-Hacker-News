@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
+import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
+
+import '../widgets/refresh.dart';
 import '../blocs/stories_provider.dart';
 import '../widgets/news_list_tile.dart';
 
@@ -37,15 +39,17 @@ class NewsList extends StatelessWidget {
           );
         }
 
-        return ListView.builder(
-          itemCount: snapshot.data.length,
-          itemBuilder: (context, int index) {
-            bloc.fetchItem(snapshot.data[index]);
+        return Refresh(
+          child: ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, int index) {
+              bloc.fetchItem(snapshot.data[index]);
 
-            return NewsListTile(
-              itemId: snapshot.data[index],
-            );
-          },
+              return NewsListTile(
+                itemId: snapshot.data[index],
+              );
+            },
+          ),
         );
       },
     );
