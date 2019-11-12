@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loading/loading.dart';
-import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../widgets/refresh.dart';
 import '../blocs/stories_provider.dart';
@@ -34,8 +33,8 @@ class NewsList extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<int>> snapshot) {
         if (!snapshot.hasData) {
           return Center(
-            child: Loading(
-              indicator: BallSpinFadeLoaderIndicator(),
+            child: SpinKitDoubleBounce(
+              color: Colors.redAccent,
               size: 100.0,
             ),
           );
