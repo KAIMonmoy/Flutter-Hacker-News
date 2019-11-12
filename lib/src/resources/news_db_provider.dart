@@ -1,14 +1,18 @@
 import 'dart:io';
 
-import 'package:flutter_hacker_news/src/models/item_model.dart';
+import 'package:flutter_hacker_news/src/resources/repository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
+import 'package:flutter_hacker_news/src/models/item_model.dart';
+
 const _kItemsTableName = "Items";
 
-class NewsDbrovider {
-  static Database _db;
+final newsDbProvider = _NewsDbrovider();
+
+class _NewsDbrovider implements Source, Cache {
+  Database _db;
 
   NewsDbrovider() {
     this.init();
@@ -38,6 +42,12 @@ class NewsDbrovider {
             ''');
       });
     }
+  }
+
+  @override
+  Future<List<int>> fetchTopIds() {
+    // TODO: implement fetchTopIds
+    return null;
   }
 
   Future<ItemModel> fetchItem(int id) async {
