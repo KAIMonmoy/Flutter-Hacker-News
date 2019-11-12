@@ -9,9 +9,6 @@ class NewsList extends StatelessWidget {
   Widget build(context) {
     final bloc = StoriesProvider.of(context);
 
-    // TODO: Remove this prevent fetching on redering each time
-    bloc.fetchTopIds();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

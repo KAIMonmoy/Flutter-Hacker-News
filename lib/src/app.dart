@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'blocs/comments_provider.dart';
 import 'blocs/stories_provider.dart';
 import 'screens/news_list.dart';
 import 'screens/news_detail.dart';
@@ -7,11 +8,13 @@ import 'screens/news_detail.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoriesProvider(
-      child: MaterialApp(
-        title: 'Hacker News',
-        theme: ThemeData.dark(),
-        onGenerateRoute: routes,
+    return CommentsProvider(
+      child: StoriesProvider(
+        child: MaterialApp(
+          title: 'Hacker News',
+          theme: ThemeData.dark(),
+          onGenerateRoute: routes,
+        ),
       ),
     );
   }
@@ -20,6 +23,7 @@ class App extends StatelessWidget {
     if (settings.name == '/') {
       return MaterialPageRoute(
         builder: (context) {
+          StoriesProvider.of(context).fetchTopIds();
           return NewsList();
         },
       );
@@ -27,6 +31,8 @@ class App extends StatelessWidget {
       return MaterialPageRoute(
         builder: (context) {
           final itemId = int.parse(settings.name.replaceFirst('/', ''));
+          CommentsProvider.of(context).fetchItemWithComments(itemId);
+
           return NewsDetail(itemId: itemId);
         },
       );
