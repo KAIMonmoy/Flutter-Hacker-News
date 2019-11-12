@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ItemModel {
   final String by;
   final int descendants;
@@ -43,6 +45,21 @@ class ItemModel {
         text = json['text'],
         dead = json['dead'];
 
+  ItemModel.fromDb(map)
+      : by = map['by'],
+        descendants = map['descendants'],
+        id = map['id'],
+        kids = json.decode(map['kids']),
+        score = map['score'],
+        time = map['time'],
+        title = map['title'],
+        type = map['type'],
+        url = map['url'],
+        deleted = (map['deleted'] == 1),
+        parent = map['parent'],
+        text = map['text'],
+        dead = (map['dead'] == 1);
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['by'] = this.by;
@@ -58,6 +75,24 @@ class ItemModel {
     data['parent'] = this.parent;
     data['text'] = this.text;
     data['dead'] = this.dead;
+    return data;
+  }
+
+  Map<String, dynamic> toDbMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['by'] = this.by;
+    data['descendants'] = this.descendants;
+    data['id'] = this.id;
+    data['kids'] = json.encode(this.kids);
+    data['score'] = this.score;
+    data['time'] = this.time;
+    data['title'] = this.title;
+    data['type'] = this.type;
+    data['url'] = this.url;
+    data['deleted'] = this.deleted ? 1 : 0;
+    data['parent'] = this.parent;
+    data['text'] = this.text;
+    data['dead'] = this.dead ? 1 : 0;
     return data;
   }
 }
