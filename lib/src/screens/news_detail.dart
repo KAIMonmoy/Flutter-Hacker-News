@@ -61,6 +61,7 @@ class NewsDetail extends StatelessWidget {
         .map((kidId) => Comment(
               itemId: kidId,
               itemMap: itemMap,
+              depth: 1,
             ))
         .toList();
     return ListView(

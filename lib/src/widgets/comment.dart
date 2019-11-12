@@ -6,8 +6,9 @@ import '../models/item_model.dart';
 class Comment extends StatelessWidget {
   final int itemId;
   final Map<int, Future<ItemModel>> itemMap;
+  final int depth;
 
-  Comment({this.itemId, this.itemMap});
+  Comment({this.itemId, this.itemMap, this.depth});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,18 @@ class Comment extends StatelessWidget {
             color: Colors.redAccent,
           );
         }
-
         final columnChildren = <Widget>[
-          Text(snapshot.data.text),
+          ListTile(
+            title: buildText(snapshot.data.text),
+            subtitle: snapshot.data.by == ""
+                ? Text("Deleted!")
+                : Text(snapshot.data.by),
+            contentPadding: EdgeInsets.only(
+              left: depth * 16.0,
+              right: 16.0,
+            ),
+          ),
+          Divider(),
         ];
 
         snapshot.data.kids.forEach((kid) {
@@ -29,6 +39,7 @@ class Comment extends StatelessWidget {
             Comment(
               itemId: itemId,
               itemMap: itemMap,
+              depth: depth + 1,
             ),
           );
         });
@@ -38,5 +49,13 @@ class Comment extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget buildText(String rawText) {
+    final text = rawText
+        .replaceAll('&#x27', "'")
+        .replaceAll('<p>', '\n\n')
+        .replaceAll('</p>', '');
+    return Text(text);
   }
 }
