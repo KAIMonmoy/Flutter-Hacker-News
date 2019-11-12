@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_hacker_news/src/screens/news_list.dart';
+import 'blocs/stories_provider.dart';
+import 'screens/news_list.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hacker News',
-      theme: ThemeData.dark(),
-      home: NewsList(),
+    return StoriesProvider(
+      child: MaterialApp(
+        title: 'Hacker News',
+        theme: ThemeData.dark(),
+        home: NewsList(),
+      ),
     );
   }
 }

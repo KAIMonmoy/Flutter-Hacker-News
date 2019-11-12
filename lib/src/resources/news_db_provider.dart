@@ -14,10 +14,6 @@ final newsDbProvider = _NewsDbrovider();
 class _NewsDbrovider implements Source, Cache {
   Database _db;
 
-  NewsDbrovider() {
-    this.init();
-  }
-
   void init() async {
     if (_db == null) {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -44,11 +40,9 @@ class _NewsDbrovider implements Source, Cache {
     }
   }
 
+  // Fetch TopIds Currently Not Implemented for DB
   @override
-  Future<List<int>> fetchTopIds() {
-    // TODO: implement fetchTopIds
-    return null;
-  }
+  Future<List<int>> fetchTopIds() => null;
 
   Future<ItemModel> fetchItem(int id) async {
     final maps = await _db.query(_kItemsTableName,
