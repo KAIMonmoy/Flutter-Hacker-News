@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:async';
 
 import 'package:flutter_hacker_news/src/models/item_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,9 +8,13 @@ import 'package:path/path.dart';
 const _kItemsTableName = "Items";
 
 class NewsDbrovider {
-  static Database _db = null;
+  static Database _db;
 
-  init() async {
+  NewsDbrovider() {
+    this.init();
+  }
+
+  void init() async {
     if (_db == null) {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
       final path = join(documentsDirectory.path, "items.db");
@@ -35,10 +38,9 @@ class NewsDbrovider {
             ''');
       });
     }
-    return _db;
   }
 
-  fetchItem(int id) async {
+  Future<ItemModel> fetchItem(int id) async {
     final maps = await _db.query(_kItemsTableName,
         columns: null, where: "id = ?", whereArgs: [id]);
     if (maps.length == 1) {
@@ -47,7 +49,7 @@ class NewsDbrovider {
     return null;
   }
 
-  addItem(ItemModel item) {
+  Future<int> addItem(ItemModel item) {
     return _db.insert(_kItemsTableName, item.toDbMap());
   }
 }
