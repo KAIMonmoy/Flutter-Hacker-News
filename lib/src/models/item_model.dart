@@ -1,98 +1,65 @@
 import 'dart:convert';
 
 class ItemModel {
-  final String by;
-  final int descendants;
   final int id;
-  final List<dynamic> kids;
-  final int score;
-  final int time;
-  final String title;
-  final String type;
-  final String url;
   final bool deleted;
-  final int parent;
+  final String type;
+  final String by;
+  final int time;
   final String text;
   final bool dead;
+  final int parent;
+  final List<dynamic> kids;
+  final String url;
+  final int score;
+  final String title;
+  final int descendants;
 
-  ItemModel(
-      {this.by,
-      this.descendants,
-      this.id,
-      this.kids,
-      this.score,
-      this.time,
-      this.title,
-      this.type,
-      this.url,
-      this.deleted,
-      this.parent,
-      this.text,
-      this.dead});
+  ItemModel.fromJson(Map<String, dynamic> parsedJson)
+      : id = parsedJson['id'],
+        deleted = parsedJson['deleted'] ?? false,
+        type = parsedJson['type'],
+        by = parsedJson['by'] ?? '',
+        time = parsedJson['time'],
+        text = parsedJson['text'] ?? '',
+        dead = parsedJson['dead'] ?? false,
+        parent = parsedJson['parent'],
+        kids = parsedJson['kids'] ?? [],
+        url = parsedJson['url'],
+        score = parsedJson['score'],
+        title = parsedJson['title'],
+        descendants = parsedJson['descendants'] ?? 0;
 
-  ItemModel.fromJson(Map<String, dynamic> json)
-      : by = json['by'],
-        descendants = json['descendants'],
-        id = json['id'],
-        kids = json['kids'],
-        score = json['score'],
-        time = json['time'],
-        title = json['title'],
-        type = json['type'],
-        url = json['url'],
-        deleted = json['deleted'],
-        parent = json['parent'],
-        text = json['text'],
-        dead = json['dead'];
+  ItemModel.fromDb(Map<String, dynamic> parsedJson)
+      : id = parsedJson['id'],
+        deleted = parsedJson['deleted'] == 1,
+        type = parsedJson['type'],
+        by = parsedJson['by'],
+        time = parsedJson['time'],
+        text = parsedJson['text'],
+        dead = parsedJson['dead'] == 1,
+        parent = parsedJson['parent'],
+        kids = jsonDecode(parsedJson['kids']),
+        url = parsedJson['url'],
+        score = parsedJson['score'],
+        title = parsedJson['title'],
+        descendants = parsedJson['descendants'];
 
-  ItemModel.fromDb(map)
-      : by = map['by'],
-        descendants = map['descendants'],
-        id = map['id'],
-        kids = json.decode(map['kids']),
-        score = map['score'],
-        time = map['time'],
-        title = map['title'],
-        type = map['type'],
-        url = map['url'],
-        deleted = (map['deleted'] == 1),
-        parent = map['parent'],
-        text = map['text'],
-        dead = (map['dead'] == 1);
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['by'] = this.by;
-    data['descendants'] = this.descendants;
-    data['id'] = this.id;
-    data['kids'] = this.kids;
-    data['score'] = this.score;
-    data['time'] = this.time;
-    data['title'] = this.title;
-    data['type'] = this.type;
-    data['url'] = this.url;
-    data['deleted'] = this.deleted;
-    data['parent'] = this.parent;
-    data['text'] = this.text;
-    data['dead'] = this.dead;
-    return data;
-  }
-
-  Map<String, dynamic> toDbMap() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['by'] = this.by;
-    data['descendants'] = this.descendants;
-    data['id'] = this.id;
-    data['kids'] = json.encode(this.kids);
-    data['score'] = this.score;
-    data['time'] = this.time;
-    data['title'] = this.title;
-    data['type'] = this.type;
-    data['url'] = this.url;
-    data['deleted'] = this.deleted ? 1 : 0;
-    data['parent'] = this.parent;
-    data['text'] = this.text;
-    data['dead'] = this.dead ? 1 : 0;
-    return data;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      "id": id,
+      "type": type,
+      "by": by,
+      "time": time,
+      "text": text,
+      "parent": parent,
+      "url": url,
+      "score": score,
+      "title": title,
+      "descendants": descendants,
+      "dead": dead ? 1 : 0,
+      "deleted": deleted ? 1 : 0,
+      "kids": jsonEncode(kids),
+    };
   }
 }
